@@ -1,0 +1,5 @@
+rootProject.name = 'csvbenchmark'
+file('subprojects').eachDir { dir ->
+    include dir.name
+    project(":${dir.name}").projectDir = dir
+}

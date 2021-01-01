@@ -1,41 +1,27 @@
 package de.siegmar.csvbenchmark;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.UncheckedIOException;
-
-import de.siegmar.fastcsv.writer.CsvAppender;
-import de.siegmar.fastcsv.writer.CsvWriter;
-
 public final class Constant {
 
     public static final char SEPARATOR = ',';
     public static final char DELIMITER = '"';
-    public static final char[] LINE_DELIMITER = { '\n' };
 
-    public static final String[] row = {
+    public static final String[] ROW = {
         "Simple field",
-        "Example with separator " + SEPARATOR,
-        "Example with delimiter " + DELIMITER,
+        "",
+        "Example with separator ,",
+        "Example with delimiter \"",
         "Example with\nnewline",
-        "Example with " + SEPARATOR + " and " + DELIMITER + " and \nnewline"
+        "Example with , and \" and \nnewline"
     };
 
-    public static final String data;
+    //public static final String DATA = "\"field1\",\"field2\"\n";
 
-    static {
-        final CsvWriter writer = new CsvWriter();
-        writer.setFieldSeparator(SEPARATOR);
-        writer.setLineDelimiter(LINE_DELIMITER);
-        writer.setTextDelimiter(DELIMITER);
-
-        final StringWriter line = new StringWriter();
-        try (CsvAppender appender = writer.append(line)) {
-            appender.appendLine(row);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        data = line.toString();
-    }
+    public static final String DATA = "Simple field,"
+        + ","
+        + "\"Example with separator ,\","
+        + "\"Example with delimiter \"\"\","
+        + "\"Example with\nnewline\","
+        + "\"Example with , and \"\" and \nnewline\""
+        + "\n";
 
 }
