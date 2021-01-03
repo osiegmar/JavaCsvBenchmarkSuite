@@ -30,7 +30,7 @@ The benchmarks were written with [JMH](http://openjdk.java.net/projects/code-too
 - Jackson CSV 2.12.0
 - Java CSV 2.0
 - Opencsv 5.3
-- Sfm (SimpleFlatMapper) 8.3.2 (w/ and w/o ASM bytecode manipulation)
+- Sfm (SimpleFlatMapper) 8.2.3 (w/ and w/o ASM bytecode manipulation)
 - Super CSV 2.4.0
 - Univocity 2.9.0
 
