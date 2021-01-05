@@ -62,10 +62,11 @@ subprojects {
     }
 
     jmh {
+        include = ['write']
         warmupIterations = 2
-        iterations = 5
+        iterations = 10
         benchmarkMode = ['thrpt']
-        fork = 5
+        fork = 3
         failOnError = true
         operationsPerInvocation = 1
         resultFormat = 'CSV'
