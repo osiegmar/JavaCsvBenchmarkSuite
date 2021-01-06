@@ -1,7 +1,15 @@
 package simpleflatmapper;
 
+import java.io.IOException;
+import java.util.Iterator;
+
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+
 public class SimpleFlatMapperASMBenchmark {
-/*
+
     @State(Scope.Benchmark)
     public static class ReadState {
 
@@ -18,5 +26,5 @@ public class SimpleFlatMapperASMBenchmark {
     public String[] read(final ReadState state) {
         return state.csvIterator.next();
     }
-*/
+
 }
