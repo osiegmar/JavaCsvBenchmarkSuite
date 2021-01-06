@@ -20,7 +20,7 @@ public class SuperCsvBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CsvListWriter csvWriter;
+        private CsvListWriter csvWriter;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -42,7 +42,7 @@ public class SuperCsvBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        CsvListReader csvReader;
+        private CsvListReader csvReader;
 
         @Setup
         public void setup() {

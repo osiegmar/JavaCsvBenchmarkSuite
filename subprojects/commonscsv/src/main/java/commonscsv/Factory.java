@@ -10,10 +10,13 @@ import org.apache.commons.csv.CSVPrinter;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
 
     private static final CSVFormat FORMAT = CSVFormat.DEFAULT
         .withRecordSeparator('\n');
+
+    private Factory() {
+    }
 
     public static CSVParser reader() throws IOException {
         return new CSVParser(new InfiniteDataReader(Constant.DATA), FORMAT);

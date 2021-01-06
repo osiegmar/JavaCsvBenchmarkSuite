@@ -8,7 +8,10 @@ import com.csvreader.CsvWriter;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static CsvReader reader() {
         return new CsvReader(new InfiniteDataReader(Constant.DATA), Constant.SEPARATOR);

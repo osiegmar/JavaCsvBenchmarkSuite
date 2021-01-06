@@ -15,7 +15,7 @@ public class InfiniteDataReader extends Reader {
     public int read(final char[] cbuf, final int off, final int len) {
         int copied = 0;
         while (copied < len) {
-            int tlen = Math.min(len - copied, data.length - pos);
+            final int tlen = Math.min(len - copied, data.length - pos);
             System.arraycopy(data, pos, cbuf, off + copied, tlen);
             copied += tlen;
             pos += tlen;

@@ -8,7 +8,10 @@ import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.writer.CsvWriter;
 import de.siegmar.fastcsv.writer.LineDelimiter;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static CsvReader reader() {
         return CsvReader.builder()

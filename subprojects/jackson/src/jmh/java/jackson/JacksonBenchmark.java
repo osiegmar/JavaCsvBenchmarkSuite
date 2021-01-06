@@ -20,7 +20,7 @@ public class JacksonBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        SequenceWriter writer;
+        private SequenceWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) throws IOException {
@@ -42,7 +42,7 @@ public class JacksonBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        MappingIterator<String[]> it;
+        private MappingIterator<String[]> it;
 
         @Setup
         public void setup() throws IOException {

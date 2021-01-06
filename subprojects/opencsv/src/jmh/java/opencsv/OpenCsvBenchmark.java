@@ -21,7 +21,7 @@ public class OpenCsvBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CSVWriter csvWriter;
+        private CSVWriter csvWriter;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -43,7 +43,7 @@ public class OpenCsvBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        CSVReader csvReader;
+        private CSVReader csvReader;
 
         @Setup
         public void setup() {

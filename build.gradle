@@ -27,6 +27,7 @@ test {
 }
 
 allprojects {
+    apply plugin: 'checkstyle'
     apply plugin: 'pmd'
     apply plugin: 'com.github.spotbugs'
 

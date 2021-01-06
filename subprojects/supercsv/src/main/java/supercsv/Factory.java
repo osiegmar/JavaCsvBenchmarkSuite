@@ -9,7 +9,10 @@ import org.supercsv.prefs.CsvPreference;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static CsvListReader reader() {
         return new CsvListReader(new InfiniteDataReader(Constant.DATA),

@@ -1,6 +1,6 @@
 package de.siegmar.csvbenchmark.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.IOException;
 import java.io.Writer;

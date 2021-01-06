@@ -1,22 +1,24 @@
 package sesseltjonna;
 
-import com.github.skjolber.stcsv.CsvReader;
-import de.siegmar.csvbenchmark.Constant;
-import de.siegmar.csvbenchmark.util.InfiniteDataReader;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.Reader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
+
+import com.github.skjolber.stcsv.CsvReader;
+
+import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
 public class FormatTest {
 
     @Test
     public void reader() throws Exception {
         try (Reader input = new InfiniteDataReader(Constant.DATA)) {
-            CsvReader<String[]> reader = Factory.reader(input);
-            String[] next = reader.next();
+            final CsvReader<String[]> reader = Factory.reader(input);
+            final String[] next = reader.next();
 
             // empty columns are returned as null (not empty strings)
             for (int i = 0; i < Constant.ROW.length; i++) {

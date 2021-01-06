@@ -18,7 +18,7 @@ public class UnivocityBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CsvWriter writer;
+        private CsvWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -40,7 +40,7 @@ public class UnivocityBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        CsvParser parser;
+        private CsvParser parser;
 
         @Setup
         public void setup() {

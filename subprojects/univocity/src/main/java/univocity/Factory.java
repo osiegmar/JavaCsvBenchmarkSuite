@@ -10,12 +10,15 @@ import com.univocity.parsers.csv.CsvWriterSettings;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static CsvParser reader() {
-        CsvParserSettings settings = new CsvParserSettings();
+        final CsvParserSettings settings = new CsvParserSettings();
         settings.setNullValue("");
-        CsvParser parser = new CsvParser(settings);
+        final CsvParser parser = new CsvParser(settings);
         parser.beginParsing(new InfiniteDataReader(Constant.DATA));
 
         return parser;

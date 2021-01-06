@@ -12,7 +12,10 @@ import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static MappingIterator<String[]> reader() throws IOException {
         final CsvMapper mapper = new CsvMapper();

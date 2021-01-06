@@ -18,7 +18,7 @@ public class SimpleFlatMapperBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CsvWriter csvWriter;
+        private CsvWriter csvWriter;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -35,7 +35,7 @@ public class SimpleFlatMapperBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        Iterator<String[]> csvIterator;
+        private Iterator<String[]> csvIterator;
 
         @Setup
         public void setup() throws IOException {

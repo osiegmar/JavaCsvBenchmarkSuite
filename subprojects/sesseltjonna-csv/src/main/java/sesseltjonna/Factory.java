@@ -1,13 +1,16 @@
 package sesseltjonna;
 
+import java.io.Reader;
+
 import com.github.skjolber.stcsv.CsvReader;
 import com.github.skjolber.stcsv.sa.StringArrayCsvReader;
 
-import java.io.Reader;
+public final class Factory {
 
-public class Factory {
+    private Factory() {
+    }
 
-    public static CsvReader<String[]> reader(Reader input) throws Exception {
+    public static CsvReader<String[]> reader(final Reader input) throws Exception {
         return StringArrayCsvReader.builder().build(input);
     }
 

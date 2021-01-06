@@ -20,7 +20,7 @@ public class FastCsvBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CsvWriter writer;
+        private CsvWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -42,7 +42,7 @@ public class FastCsvBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        CloseableIterator<CsvRow> it;
+        private CloseableIterator<CsvRow> it;
 
         @Setup
         public void setup() {

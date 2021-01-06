@@ -10,7 +10,10 @@ import org.simpleflatmapper.lightningcsv.CsvWriter;
 import de.siegmar.csvbenchmark.Constant;
 import de.siegmar.csvbenchmark.util.InfiniteDataReader;
 
-public class Factory {
+public final class Factory {
+
+    private Factory() {
+    }
 
     public static Iterator<String[]> reader(final boolean asm) throws IOException {
         CsvParser.DSL dsl = CsvParser.dsl();

@@ -20,7 +20,7 @@ public class JavaCsvBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CsvWriter csvWriter;
+        private CsvWriter csvWriter;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -42,7 +42,7 @@ public class JavaCsvBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        CsvReader csvReader;
+        private CsvReader csvReader;
 
         @Setup
         public void setup() {

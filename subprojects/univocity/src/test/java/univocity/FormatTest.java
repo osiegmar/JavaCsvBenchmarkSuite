@@ -24,7 +24,7 @@ public class FormatTest {
     @Test
     public void writer() {
         final StringWriter sw = new StringWriter();
-        CsvWriter csvWriter = Factory.writer(sw);
+        final CsvWriter csvWriter = Factory.writer(sw);
         csvWriter.writeRow(Constant.ROW);
         csvWriter.close();
 

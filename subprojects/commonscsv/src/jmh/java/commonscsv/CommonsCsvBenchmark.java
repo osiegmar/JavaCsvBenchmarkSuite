@@ -21,7 +21,7 @@ public class CommonsCsvBenchmark {
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        CSVPrinter csvPrinter;
+        private CSVPrinter csvPrinter;
 
         @Setup
         public void setup(final Blackhole bh) throws IOException {
@@ -43,8 +43,8 @@ public class CommonsCsvBenchmark {
     @State(Scope.Benchmark)
     public static class ReadState {
 
+        private Iterator<CSVRecord> csvIterator;
         private CSVParser csvParser;
-        Iterator<CSVRecord> csvIterator;
 
         @Setup
         public void setup() throws IOException {
