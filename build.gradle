@@ -37,11 +37,20 @@ allprojects {
         ruleSetFiles = files("${project.rootDir}/config/pmd/config.xml")
     }
 
-    tasks.matching {task -> task.name.startsWith('spotbugs')}.forEach {
-        it.reports {
-            html.enabled = true
-            xml.enabled = false
+    project.afterEvaluate {
+
+        tasks.matching {task -> task.name.startsWith('spotbugs')}.forEach {
+
+            spotbugs {
+                toolVersion = '4.2.0'
+            }
+
+            it.reports {
+                html.enabled = true
+                xml.enabled = false
+            }
         }
+
     }
 
 }
