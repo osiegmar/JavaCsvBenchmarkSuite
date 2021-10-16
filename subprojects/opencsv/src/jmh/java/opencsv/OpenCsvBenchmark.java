@@ -1,6 +1,7 @@
 package opencsv;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
@@ -9,57 +10,57 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
-
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 import de.siegmar.csvbenchmark.util.NullWriter;
+import de.siegmar.csvbenchmark.util.RowSupplier;
 
 public class OpenCsvBenchmark {
 
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        private CSVWriter csvWriter;
+        private final RowSupplier rowSupplier = new RowSupplier(Constant.ROWS);
+        private ICsvWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) {
-            csvWriter = Factory.writer(new NullWriter(bh));
+            writer = Factory.writer(new NullWriter(bh));
         }
 
         @TearDown
         public void teardown() throws IOException {
-            csvWriter.close();
+            writer.close();
         }
 
     }
 
     @Benchmark
-    public void write(final WriteState state) {
-        state.csvWriter.writeNext(Constant.ROW, false);
+    public void write(final WriteState state) throws Exception {
+        state.writer.writeRecord(state.rowSupplier.get());
     }
 
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        private CSVReader csvReader;
+        private ICsvReader reader;
 
         @Setup
         public void setup() {
-            csvReader = Factory.reader();
+            reader = Factory.reader();
         }
 
         @TearDown
         public void teardown() throws IOException {
-            csvReader.close();
+            reader.close();
         }
 
     }
 
     @Benchmark
-    public String[] read(final ReadState state) throws IOException, CsvValidationException {
-        return state.csvReader.readNext();
+    public Collection<String> read(final ReadState state) throws Exception {
+        return state.reader.readRecord();
     }
 
 }

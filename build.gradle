@@ -1,25 +1,26 @@
 plugins {
     id 'java'
     id 'com.github.spotbugs' version '4.5.0' apply false
-    id 'me.champeau.gradle.jmh' version '0.5.2' apply false
+    id 'me.champeau.jmh' version '0.6.6' apply false
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 }
 
 dependencies {
-    implementation 'org.openjdk.jmh:jmh-core:1.25'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+    implementation 'org.openjdk.jmh:jmh-core:1.33'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
 test {
@@ -57,14 +58,14 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'me.champeau.gradle.jmh'
+    apply plugin: 'me.champeau.jmh'
 
     dependencies {
         compileOnly rootProject
         testImplementation rootProject
 
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     }
 
     test {

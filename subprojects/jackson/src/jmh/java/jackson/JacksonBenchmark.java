@@ -1,6 +1,7 @@
 package jackson;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
@@ -9,22 +10,23 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
 
-import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.SequenceWriter;
-
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 import de.siegmar.csvbenchmark.util.NullWriter;
+import de.siegmar.csvbenchmark.util.RowSupplier;
 
 public class JacksonBenchmark {
 
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        private SequenceWriter writer;
+        private final RowSupplier rowSupplier = new RowSupplier(Constant.ROWS);
+        private ICsvWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) throws IOException {
-            this.writer = Factory.writer(new NullWriter(bh));
+            writer = Factory.writer(new NullWriter(bh));
         }
 
         @TearDown
@@ -35,25 +37,30 @@ public class JacksonBenchmark {
     }
 
     @Benchmark
-    public void write(final WriteState state) throws IOException {
-        state.writer.write(Constant.ROW);
+    public void write(final WriteState state) throws Exception {
+        state.writer.writeRecord(state.rowSupplier.get());
     }
 
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        private MappingIterator<String[]> it;
+        private ICsvReader reader;
 
         @Setup
         public void setup() throws IOException {
-            it = Factory.reader();
+            reader = Factory.reader();
+        }
+
+        @TearDown
+        public void teardown() throws IOException {
+            reader.close();
         }
 
     }
 
     @Benchmark
-    public String[] read(final ReadState state) {
-        return state.it.next();
+    public Collection<String> read(final ReadState state) throws Exception {
+        return state.reader.readRecord();
     }
 
 }

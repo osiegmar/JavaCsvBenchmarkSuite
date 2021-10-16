@@ -1,32 +1,35 @@
 package univocity;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.StringWriter;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvWriter;
-
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 
 public class FormatTest {
 
     @Test
-    public void reader() {
-        final CsvParser reader = Factory.reader();
-
-        assertArrayEquals(Constant.ROW, reader.parseNext());
+    public void reader() throws Exception {
+        try (ICsvReader reader = Factory.reader()) {
+            for (final List<String> row : Constant.ROWS) {
+                assertEquals(row, reader.readRecord());
+            }
+        }
     }
 
     @Test
-    public void writer() {
+    public void writer() throws Exception {
         final StringWriter sw = new StringWriter();
-        final CsvWriter csvWriter = Factory.writer(sw);
-        csvWriter.writeRow(Constant.ROW);
-        csvWriter.close();
+        try (ICsvWriter writer = Factory.writer(sw)) {
+            for (final List<String> row : Constant.ROWS) {
+                writer.writeRecord(row);
+            }
+        }
 
         assertEquals(Constant.DATA, sw.toString());
     }

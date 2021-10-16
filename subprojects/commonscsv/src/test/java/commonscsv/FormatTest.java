@@ -1,37 +1,34 @@
 package commonscsv;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.Test;
 
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 
 public class FormatTest {
 
     @Test
-    public void reader() throws IOException {
-        final CSVRecord record = Factory.reader().iterator().next();
-        final List<String> items = new ArrayList<>();
-        for (final String s : record) {
-            items.add(s);
+    public void reader() throws Exception {
+        try (ICsvReader reader = Factory.reader()) {
+            for (final List<String> row : Constant.ROWS) {
+                assertEquals(row, reader.readRecord());
+            }
         }
-
-        assertArrayEquals(Constant.ROW, items.toArray());
     }
 
     @Test
-    public void writer() throws IOException {
+    public void writer() throws Exception {
         final StringWriter sw = new StringWriter();
-        try (CSVPrinter csvPrinter = Factory.writer(sw)) {
-            csvPrinter.printRecord((Object[]) Constant.ROW);
+        try (ICsvWriter writer = Factory.writer(sw)) {
+            for (final List<String> row : Constant.ROWS) {
+                writer.writeRecord(row);
+            }
         }
 
         assertEquals(Constant.DATA, sw.toString());

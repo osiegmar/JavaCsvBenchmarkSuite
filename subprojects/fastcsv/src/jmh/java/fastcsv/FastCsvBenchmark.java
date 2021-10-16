@@ -1,6 +1,7 @@
 package fastcsv;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
@@ -10,21 +11,22 @@ import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
 
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 import de.siegmar.csvbenchmark.util.NullWriter;
-import de.siegmar.fastcsv.reader.CloseableIterator;
-import de.siegmar.fastcsv.reader.CsvRow;
-import de.siegmar.fastcsv.writer.CsvWriter;
+import de.siegmar.csvbenchmark.util.RowSupplier;
 
 public class FastCsvBenchmark {
 
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        private CsvWriter writer;
+        private final RowSupplier rowSupplier = new RowSupplier(Constant.ROWS);
+        private ICsvWriter writer;
 
         @Setup
-        public void setup(final Blackhole bh) {
-            this.writer = Factory.writer(new NullWriter(bh));
+        public void setup(final Blackhole bh) throws IOException {
+            writer = Factory.writer(new NullWriter(bh));
         }
 
         @TearDown
@@ -35,30 +37,30 @@ public class FastCsvBenchmark {
     }
 
     @Benchmark
-    public void write(final WriteState state) {
-        state.writer.writeRow(Constant.ROW);
+    public void write(final WriteState state) throws Exception {
+        state.writer.writeRecord(state.rowSupplier.get());
     }
 
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        private CloseableIterator<CsvRow> it;
+        private ICsvReader reader;
 
         @Setup
-        public void setup() {
-            it = Factory.reader().iterator();
+        public void setup() throws IOException {
+            reader = Factory.reader();
         }
 
         @TearDown
         public void teardown() throws IOException {
-            it.close();
+            reader.close();
         }
 
     }
 
     @Benchmark
-    public CsvRow read(final ReadState state) {
-        return state.it.next();
+    public Collection<String> read(final ReadState state) throws Exception {
+        return state.reader.readRecord();
     }
 
 }

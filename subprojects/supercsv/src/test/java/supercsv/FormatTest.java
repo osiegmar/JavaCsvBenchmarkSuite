@@ -1,32 +1,42 @@
 package supercsv;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.supercsv.io.CsvListWriter;
 
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 
 public class FormatTest {
 
     @Test
-    public void reader() throws IOException {
-        final String[] sa = Factory.reader().read().stream()
-            .map(s -> (s == null) ? "" : s)
-            .toArray(String[]::new);
+    public void reader() throws Exception {
+        try (ICsvReader reader = Factory.reader()) {
+            for (final List<String> row : Constant.ROWS) {
+                assertEquals(row, nullToEmpty(reader.readRecord()));
+            }
+        }
+    }
 
-        assertArrayEquals(Constant.ROW, sa);
+    private List<String> nullToEmpty(final Collection<String> row) {
+        return row.stream()
+            .map(s -> (s == null) ? "" : s)
+            .collect(Collectors.toList());
     }
 
     @Test
-    public void writer() throws IOException {
+    public void writer() throws Exception {
         final StringWriter sw = new StringWriter();
-        try (CsvListWriter csvListWriter = Factory.writer(sw)) {
-            csvListWriter.write(Constant.ROW);
+        try (ICsvWriter writer = Factory.writer(sw)) {
+            for (final List<String> row : Constant.ROWS) {
+                writer.writeRecord(row);
+            }
         }
 
         assertEquals(Constant.DATA, sw.toString());

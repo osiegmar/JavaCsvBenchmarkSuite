@@ -1,5 +1,8 @@
 package univocity;
 
+import java.io.IOException;
+import java.util.Collection;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
@@ -7,18 +10,18 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.infra.Blackhole;
 
-import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvWriter;
-
 import de.siegmar.csvbenchmark.Constant;
+import de.siegmar.csvbenchmark.ICsvReader;
+import de.siegmar.csvbenchmark.ICsvWriter;
 import de.siegmar.csvbenchmark.util.NullWriter;
+import de.siegmar.csvbenchmark.util.RowSupplier;
 
 public class UnivocityBenchmark {
-
     @State(Scope.Benchmark)
     public static class WriteState {
 
-        private CsvWriter writer;
+        private final RowSupplier rowSupplier = new RowSupplier(Constant.ROWS);
+        private ICsvWriter writer;
 
         @Setup
         public void setup(final Blackhole bh) {
@@ -26,32 +29,37 @@ public class UnivocityBenchmark {
         }
 
         @TearDown
-        public void teardown() {
+        public void teardown() throws IOException {
             writer.close();
         }
 
     }
 
     @Benchmark
-    public void write(final WriteState state) {
-        state.writer.writeRow(Constant.ROW);
+    public void write(final WriteState state) throws Exception {
+        state.writer.writeRecord(state.rowSupplier.get());
     }
 
     @State(Scope.Benchmark)
     public static class ReadState {
 
-        private CsvParser parser;
+        private ICsvReader reader;
 
         @Setup
         public void setup() {
-            parser = Factory.reader();
+            reader = Factory.reader();
+        }
+
+        @TearDown
+        public void teardown() throws IOException {
+            reader.close();
         }
 
     }
 
     @Benchmark
-    public String[] read(final ReadState state) {
-        return state.parser.parseNext();
+    public Collection<String> read(final ReadState state) throws Exception {
+        return state.reader.readRecord();
     }
 
 }
