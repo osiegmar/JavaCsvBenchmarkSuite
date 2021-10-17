@@ -1,4 +1,0 @@
-dependencies {
-    jmh rootProject
-    implementation 'com.github.skjolber.sesseltjonna-csv:parser:1.0.20'
-}
