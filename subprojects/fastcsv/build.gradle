@@ -1,4 +1,0 @@
-dependencies {
-    jmh rootProject
-    implementation 'de.siegmar:fastcsv:2.1.0'
-}

@@ -5,37 +5,33 @@ import java.util.Arrays;
 
 import org.openjdk.jmh.infra.Blackhole;
 
-// Do some semi-realistic work
+/**
+ * Writer implementation that sends all data to a black hole.
+ */
 public class NullWriter extends Writer {
 
-    private static final int BUFFER_SIZE = 8192;
-
     private final Blackhole bh;
-    private final char[] buf = new char[BUFFER_SIZE];
-    private int pos;
 
+    /**
+     * Initializes a new instance of the {@link NullWriter} class.
+     *
+     * @param bh the black hole to send all data to
+     */
     public NullWriter(final Blackhole bh) {
         this.bh = bh;
     }
 
     @Override
     public void write(final char[] cbuf, final int off, final int len) {
-        if (len + pos > buf.length) {
-            flush();
-        }
-        System.arraycopy(cbuf, off, buf, pos, len);
-        pos += len;
+        bh.consume(Arrays.copyOfRange(cbuf, off, off + len));
     }
 
     @Override
     public void flush() {
-        bh.consume(Arrays.copyOf(buf, pos));
-        pos = 0;
     }
 
     @Override
     public void close() {
-        flush();
     }
 
 }
