@@ -1,4 +1,4 @@
 dependencies {
     jmh(rootProject)
-    implementation("org.apache.commons:commons-csv:1.10.0")
+    implementation("org.apache.commons:commons-csv:1.12.0")
 }

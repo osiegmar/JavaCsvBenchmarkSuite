@@ -46,9 +46,9 @@ subprojects {
 
     tasks.named<JMHTask>("jmh") {
         warmupIterations = 2
-        iterations = 3
+        iterations = 1
         benchmarkMode = listOf("thrpt")
-        fork = 4
+        fork = 8
         failOnError = true
         operationsPerInvocation = 1
         resultFormat = "CSV"
