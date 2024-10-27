@@ -22,13 +22,13 @@ public final class Factory {
             // Performances seems highly related to the buffer size
 
             // Slower: the default buf size (8192) is too big for the benchmark data
-            private static final int BUF_SIZE_SLOWER = Csv.DEFAULT_CHAR_BUFFER_SIZE;
+            private final int BUF_SIZE_SLOWER = Csv.DEFAULT_CHAR_BUFFER_SIZE;
 
             // Equivalent: a random low buf size seems efficient
-            private static final int BUF_SIZE_EQUIVALENT = 200;
+            private final int BUF_SIZE_EQUIVALENT = 200;
 
             // Faster: a perfect buf size (163) aligns the stars and performs very well
-            private static final int BUF_SIZE_FASTER = CsvConstants.DATA.length();
+            private final int BUF_SIZE_FASTER = CsvConstants.DATA.length();
 
             private final Csv.Reader csvReader = Csv.Reader.of(
                     Csv.Format.DEFAULT
