@@ -1,4 +1,4 @@
 dependencies {
     jmh(rootProject)
-    implementation("com.opencsv:opencsv:5.9")
+    implementation("com.opencsv:opencsv:5.10")
 }
