@@ -23,10 +23,32 @@ public final class Factory {
         return new ICsvReader() {
 
             private final CloseableIterator<CsvRecord> iterator = CsvReader.builder()
-                .fieldSeparator(CsvConstants.SEPARATOR)
-                .quoteCharacter(CsvConstants.DELIMITER)
                 .skipEmptyLines(false)
+                .allowMissingFields(true)
                 .ofCsvRecord(new InfiniteDataReader(CsvConstants.DATA))
+                .iterator();
+
+            @Override
+            public List<String> readRecord() {
+                return iterator.next().getFields();
+            }
+
+            @Override
+            public void close() throws IOException {
+                iterator.close();
+            }
+
+        };
+    }
+
+    public static ICsvReader readerMulti() {
+        return new ICsvReader() {
+
+            private final CloseableIterator<CsvRecord> iterator = CsvReader.builder()
+                .fieldSeparator(CsvConstants.MULTI_SEPARATOR)
+                .skipEmptyLines(false)
+                .allowMissingFields(true)
+                .ofCsvRecord(new InfiniteDataReader(CsvConstants.MULTI_DATA))
                 .iterator();
 
             @Override
@@ -46,9 +68,7 @@ public final class Factory {
         return new ICsvWriter() {
 
             private final CsvWriter csvWriter = CsvWriter.builder()
-                .fieldSeparator(CsvConstants.SEPARATOR)
                 .lineDelimiter(LineDelimiter.LF)
-                .quoteCharacter(CsvConstants.DELIMITER)
                 .build(writer);
 
             @Override

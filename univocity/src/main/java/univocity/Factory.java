@@ -41,6 +41,28 @@ public final class Factory {
         };
     }
 
+    public static ICsvReader readerMulti() {
+        final CsvParserSettings settings = new CsvParserSettings();
+        settings.setNullValue("");
+        settings.getFormat().setDelimiter(CsvConstants.MULTI_SEPARATOR);
+        final CsvParser parser = new CsvParser(settings);
+        parser.beginParsing(new InfiniteDataReader(CsvConstants.MULTI_DATA));
+
+        return new ICsvReader() {
+
+            @Override
+            public Collection<String> readRecord() {
+                return Arrays.asList(parser.parseNext());
+            }
+
+            @Override
+            public void close() {
+                parser.stopParsing();
+            }
+
+        };
+    }
+
     public static ICsvWriter writer(final Writer writer) {
         final CsvWriterSettings settings = new CsvWriterSettings();
         settings.setQuoteEscapingEnabled(true);

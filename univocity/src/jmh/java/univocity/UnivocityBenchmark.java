@@ -62,4 +62,26 @@ public class UnivocityBenchmark {
         return state.reader.readRecord();
     }
 
+    @State(Scope.Benchmark)
+    public static class ReadStateMulti {
+
+        private ICsvReader reader;
+
+        @Setup
+        public void setup() {
+            reader = Factory.readerMulti();
+        }
+
+        @TearDown
+        public void teardown() throws IOException {
+            reader.close();
+        }
+
+    }
+
+    @Benchmark
+    public Collection<String> readMulti(final ReadStateMulti state) throws Exception {
+        return state.reader.readRecord();
+    }
+
 }

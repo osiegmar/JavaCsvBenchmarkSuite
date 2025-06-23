@@ -23,6 +23,15 @@ public class FormatTest {
     }
 
     @Test
+    public void readerMulti() throws Exception {
+        try (ICsvReader reader = Factory.readerMulti()) {
+            for (final List<String> row : CsvConstants.MULTI_RECORDS) {
+                assertEquals(row, reader.readRecord());
+            }
+        }
+    }
+
+    @Test
     public void writer() throws Exception {
         final StringWriter sw = new StringWriter();
         try (ICsvWriter writer = Factory.writer(sw)) {
