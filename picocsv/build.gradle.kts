@@ -1,4 +1,4 @@
 dependencies {
     jmh(rootProject)
-    implementation("com.github.nbbrd.picocsv:picocsv:2.5.1")
+    implementation("com.github.nbbrd.picocsv:picocsv:2.6.0")
 }
